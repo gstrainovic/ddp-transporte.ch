@@ -1,0 +1,145 @@
+{% spaceless %}
+{% set theme_config = attribute(config.themes, config.system.pages.theme) %}
+{% set favicon = '' %}
+{% set logo = '' %}
+{% if theme_config.favicon|length > 0 %}
+    {% for item in theme_config.favicon %}
+        {% set favicon = item.name %}
+    {% endfor %}
+{% endif %}
+{% if theme_config.logo|length > 0 %}
+    {% for item in theme_config.logo %}
+        {% set logo = item.name %}
+    {% endfor %}
+{% endif %}
+{% endspaceless %}
+<!doctype html>
+<html>
+    <head>
+        <script src="./user/themes/mymache/js/smooth-scroll.polyfills.js"></script>
+        <meta charset="utf-8">
+        <title>{% if header.title %}{{ header.title|e('html') }} | {% endif %}{{ site.title|e('html') }}</title>
+        {% include 'partials/metadata.html.twig' %}
+        <meta name="viewport" content="width=device-width initial-scale=1.0">
+
+        {% if favicon %}
+        <link rel="icon" type="image/png" href="{{ url('theme://images/' ~ favicon) }}" />
+        {% endif %}
+
+        <link rel="canonical" href="{{ page.url(true, true) }}" />
+
+        {% block stylesheets %}
+            <link href='https://fonts.googleapis.com/css?family=Lato:100,400,300,300italic,400italic,700' rel='stylesheet' type='text/css'>
+            {# <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> #}
+            {% do assets.addCss('theme://css/fonts.css') %}
+            {% do assets.addCss('theme://css/grid.css') %}
+            {% do assets.addCss('theme://css/style.css') %}
+            {% do assets.addCss('theme://css/menu.css') %}
+            {% do assets.addCss('theme://css/jquery.bxslider.css') %}
+            {% do assets.addCss('theme://css/responsive.css') %}
+            {% do assets.addCss('theme://css/animate.css') %}
+            {% do assets.addCss('theme://css/fa-all.css') %}
+        {% endblock %}
+        {{ assets.css() }}
+    </head>
+
+    <body>
+        <div class="se-pre-con">
+            <div class="box loading"></div>
+        </div>
+
+        <header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="logo">
+                            {% if logo %}
+                            <a href="{{ base_url == '' ? '/' : base_url }}"><img src="{{ url('theme://images/' ~ logo) }}" alt="{{ config.site.title|e('html') }}"/></a>
+                            {% endif %}
+                        </div>
+
+                        <nav class="nav-collapse">
+                            {% include 'partials/navigation.html.twig' %}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <script>
+	        var scroll = new SmoothScroll('a[href*="#"]');
+        </script>
+
+        {% block content %}
+            {{ content}}
+        {% endblock %}
+
+		<footer class="footer-distributed">
+            <div class="container">
+                <div class="row col-lg-12">
+        			<div class="footer-left ">
+        			    <ul>
+    					    <li><a href="./#">Home</a></li>
+    					    <li><a href="./agb">AGB</a></li>
+    					    <li><a href="./impressum">Impressum</a></li>
+    				        <li><a href="./datenschutz">Datenschutz</a></li>
+ 
+        			    </ul>
+        			</div>
+        
+        			<div class="footer-center ">
+    					<i class="fas fa-map-marker-alt"></i>
+    					<p>
+                            <span><b>DD Pasuljanovic Transporte</b></span>
+    					    <span>Haini-Rennhasstrasse 20</span>
+    					    <span>CH-9403 Goldach</span>
+                            <span>Schweiz</span>
+    					</p>
+        			</div>	
+        			
+                    <div class="footer-center ">
+                        <div>
+                            <i class="fas fa-mobile-alt"></i>
+                            <p><a href="tel:0041763827609">+41 76 382 76 09</a></p>
+                        </div>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <p><a href="mailto:info@ddp-transporte.ch">info@ddp-transporte.ch</a></p>
+                        </div>
+                        <div>
+                            <i class="fab fa-facebook-f"></i>
+                            <p><a href="https://www.facebook.com/DD-Pasuljanovic-Transporte-292168738056955">Facebook</a></p>
+                        </div>
+                         <div>
+                           <i class="fab fa-instagram"></i>
+                            <p><a href="https://www.instagram.com/ddpasuljanovic/">Instagram</a></p>
+                        </div>
+        			</div>
+        
+        			<div class="footer-right ">
+                        <p>
+        				    Free Template designed by<br>
+        				    <a href="http://freetemplates.pro" target="_blank">freetemplates.pro</a><br>
+        				    <a href="http://symu.co" target="_blank">symu.co</a><br>
+                        </p>
+                        
+                        <p>
+        				    Website created with <i class="fa fa-heart"></i> by
+        				    <a href="http://strainovic-it.ch" target="_blank">strainovic-it.ch</a>
+                        </p>
+        			</div>
+        		</div>	
+            </div>
+		</footer>
+
+        {% block javascripts %}
+            {% do assets.addJs('jquery', 101) %}
+            {% do assets.addJs('theme://js/jquery.bxslider.js') %}
+            {% do assets.addJs('theme://js/script.js') %}
+            {% do assets.addJs('theme://js/fixed-responsive-nav.js') %}
+            {% do assets.addJs('theme://js/waypoints.min.js') %}
+        {% endblock %}
+        {{ assets.js() }}
+        {{ assets.js('bottom') }}
+    </body>
+</html>

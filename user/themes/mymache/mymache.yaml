@@ -1,0 +1,26 @@
+enabled: true
+favicon:
+  user/themes/mache/images/favicon.png:
+    name: favicon.png
+    type: image/png
+    size: 1177
+    path: user/themes/mache/images/favicon.png
+logo:
+  user/themes/mache/images/logo.svg:
+    name: logo.svg
+    type: image/svg
+    size: 1824
+    path: user/themes/mache/images/logo.svg
+left_footer: "Template erstellt von [FreeTemplates.pro](https://FreeTemplates.pro) & [symu.co](https:/symu.co)\n\r Webseite erstellt von [Strainovic-IT.ch](https://strainovic-it.ch)<p></p>Mijajlovic & Co.\n\r Mooswiesstrasse 77\n\r CH-9200 Gossau"
+right_footer: "[Home](/#banner)\n\r [Impressum](/impressum)\n\r [Datenschutz](/datenschutz)"
+    
+blog_thumbnail_height: 450
+
+streams:
+ schemes:
+   theme:
+     type: ReadOnlyStream
+     prefixes:
+       '':
+         - user/themes/mymache
+         - user/themes/mache
