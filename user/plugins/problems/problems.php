@@ -1,10 +1,11 @@
 <?php
 namespace Grav\Plugin;
 
-
+use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 use Grav\Common\Uri;
 use Grav\Plugin\Problems\Base\ProblemChecker;
+use RocketTheme\Toolbox\Event\Event;
 
 class ProblemsPlugin extends Plugin
 {
@@ -17,14 +18,28 @@ class ProblemsPlugin extends Plugin
     public static function getSubscribedEvents()
     {
         return [
-            'onPluginsInitialized' => ['onPluginsInitialized', 100001],
-            'onFatalException' => ['onFatalException', 0]
+            'onPluginsInitialized' => [
+                ['autoload', 100002],
+                ['onPluginsInitialized', 100001]
+            ],
+            'onFatalException' => ['onFatalException', 0],
+            'onAdminGenerateReports' => ['onAdminGenerateReports', 0],
         ];
+    }
+
+    /**
+     * [onPluginsInitialized:100000] Composer autoload.
+     *
+     * @return ClassLoader
+     */
+    public function autoload()
+    {
+        return require __DIR__ . '/vendor/autoload.php';
     }
 
     public function onFatalException()
     {
-        if ($this->isAdmin()) {
+        if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
         }
 
@@ -36,17 +51,17 @@ class ProblemsPlugin extends Plugin
 
     public function onPluginsInitialized()
     {
-        if ($this->isAdmin()) {
+        if (\defined('GRAV_CLI') || $this->isAdmin()) {
             return;
         }
 
-        require __DIR__ . '/vendor/autoload.php';
         $this->checker = new ProblemChecker();
 
         if (!$this->checker->statusFileExists()) {
             // If no issues remain, save a state file in the cache
             if (!$this->problemsFound()) {
                 // delete any existing validated files
+                /** @var \SplFileInfo $fileInfo */
                 foreach (new \GlobIterator(CACHE_DIR . ProblemChecker::PROBLEMS_PREFIX . '*') as $fileInfo) {
                     @unlink($fileInfo->getPathname());
                 }
@@ -77,8 +92,39 @@ class ProblemsPlugin extends Plugin
         exit();
     }
 
+    public function onAdminGenerateReports(Event $e)
+    {
+        $reports = $e['reports'];
+
+        $this->checker = new ProblemChecker();
+
+        // Check for problems
+        $this->problemsFound();
+
+        /** @var Uri $uri */
+        $uri = $this->grav['uri'];
+
+        /** @var \Twig_Environment $twig */
+        $twig = $this->getTwig();
+
+        $data = [
+            'problems' => $this->problems,
+            'base_url' => $baseUrlRelative = $uri->rootUrl(false),
+            'problems_url' => $baseUrlRelative . '/user/plugins/problems',
+        ];
+
+        $reports['Grav Potential Problems'] = $twig->render('reports/problems-report.html.twig', $data);
+
+        $this->grav['assets']->addCss('plugins://problems/css/admin.css');
+        $this->grav['assets']->addCss('plugins://problems/css/spectre-icons.css');
+    }
+
     private function problemsFound()
     {
+        if (null === $this->checker) {
+            $this->checker = new ProblemChecker();
+        }
+
         $status = $this->checker->check(__DIR__ . '/classes/Problems');
         $this->problems = $this->checker->getProblems();
         
