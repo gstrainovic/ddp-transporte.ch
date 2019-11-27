@@ -1,7 +1,7 @@
 ---
-title: 'DD Pasuljanovic Transporte'
+title: 'DDP Transporte'
 media_order: lieferwagen.jpg
-heading: '<span>DD Pasuljanovic Transporte</span>'
+heading: '<span>DDP Transporte</span>'
 background_image: lieferwagen.jpg
 button_label: Reservieren
 button_url: '#kontakt'

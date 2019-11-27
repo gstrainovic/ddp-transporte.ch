@@ -8,7 +8,7 @@ menu: Kontakt
             <div>
                 <i class="fas fa-map-marker-alt"></i>
                 <p>
-                    <span><b>DD Pasuljanovic Transporte</b></span>
+                    <span><b>DDP Transporte</b></span>
                     <span>Haini-Rennhasstrasse 20</span>
                     <span>CH-9403 Goldach</span>
                     <span>Schweiz</span>

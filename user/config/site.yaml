@@ -1,13 +1,13 @@
-title: 'DD Pasuljanovic Transporte'
+title: 'DDP Transporte'
 default_lang: de
 author:
-  name: 'DD Pasuljanovic Transporte'
+  name: 'DDP Transporte'
   email: info@ddp-transporte.ch
 taxonomies:
   - category
   - tag
 metadata:
-  description: 'DD Pasuljanovic Transporte vermietet Lieferwagen mit Hebebühne und hilft bei Umzügen und Entsorgungen.'
+  description: 'DDP Transporte vermietet Lieferwagen mit Hebebühne und hilft bei Umzügen und Entsorgungen.'
 summary:
   enabled: true
   format: short

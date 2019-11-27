@@ -3,7 +3,7 @@ title: Impressum
 ---
 <center>
 <b>Adressse:</b></br>
-DD Pasuljanovic Transporte</br>
+DDP Transporte</br>
 Haini-Rennhasstrasse 20</br>
 CH-9403 Goldach</br>
 Schweiz</br>
